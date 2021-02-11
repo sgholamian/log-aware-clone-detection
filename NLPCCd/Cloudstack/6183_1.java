@@ -1,0 +1,18 @@
+//,temp,sample_6716.java,2,14,temp,sample_4386.java,2,14
+//,3
+public class xxx {
+protected boolean canHandle(Network network, Service service) {
+if (network.getBroadcastDomainType() != BroadcastDomainType.Vcs) {
+return false;
+}
+if (!_networkModel.isProviderForNetwork(getProvider(), network.getId())) {
+return false;
+}
+if (!_ntwkSrvcDao.canProviderSupportServiceInNetwork(network.getId(), service, Network.Provider.BrocadeVcs)) {
+
+
+log.info("brocadevcselement can t provide the service on network");
+}
+}
+
+};

@@ -1,0 +1,10 @@
+//,temp,sample_7567.java,2,6,temp,sample_802.java,2,6
+//,3
+public class xxx {
+private void testKeySpecs(String input, String expectedOutput, KeyFieldHelper helper, int s1, int e1) {
+
+
+log.info("input");
+}
+
+};

@@ -1,0 +1,20 @@
+//,temp,sample_3551.java,2,16,temp,sample_6355.java,2,16
+//,2
+public class xxx {
+public void dummy_method(){
+ObjectSpec oSpec = new ObjectSpec();
+oSpec.setObj(_mor);
+oSpec.setSkip(Boolean.TRUE);
+oSpec.getSelectSet().add(host2VmTraversal);
+PropertyFilterSpec pfSpec = new PropertyFilterSpec();
+pfSpec.getPropSet().add(pSpec);
+pfSpec.getObjectSet().add(oSpec);
+List<PropertyFilterSpec> pfSpecArr = new ArrayList<PropertyFilterSpec>();
+pfSpecArr.add(pfSpec);
+List<ObjectContent> properties = _context.getService().retrieveProperties(_context.getPropertyCollector(), pfSpecArr);
+
+
+log.info("vcenter api trace retrieveproperties done");
+}
+
+};
