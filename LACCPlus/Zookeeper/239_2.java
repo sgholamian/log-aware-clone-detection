@@ -1,0 +1,59 @@
+//,temp,ObserverRequestProcessor.java,67,120,temp,FollowerRequestProcessor.java,58,111
+//,2
+public class xxx {
+    @Override
+    public void run() {
+        try {
+            while (!finished) {
+                Request request = queuedRequests.take();
+                if (LOG.isTraceEnabled()) {
+                    ZooTrace.logRequest(LOG, ZooTrace.CLIENT_REQUEST_TRACE_MASK,
+                            'F', request, "");
+                }
+                if (request == Request.requestOfDeath) {
+                    break;
+                }
+                // We want to queue the request to be processed before we submit
+                // the request to the leader so that we are ready to receive
+                // the response
+                nextProcessor.processRequest(request);
+
+                // We now ship the request to the leader. As with all
+                // other quorum operations, sync also follows this code
+                // path, but different from others, we need to keep track
+                // of the sync operations this follower has pending, so we
+                // add it to pendingSyncs.
+                switch (request.type) {
+                case OpCode.sync:
+                    zks.pendingSyncs.add(request);
+                    zks.getFollower().request(request);
+                    break;
+                case OpCode.create:
+                case OpCode.create2:
+                case OpCode.createTTL:
+                case OpCode.createContainer:
+                case OpCode.delete:
+                case OpCode.deleteContainer:
+                case OpCode.setData:
+                case OpCode.reconfig:
+                case OpCode.setACL:
+                case OpCode.multi:
+                case OpCode.check:
+                    zks.getFollower().request(request);
+                    break;
+                case OpCode.createSession:
+                case OpCode.closeSession:
+                    // Don't forward local sessions to the leader.
+                    if (!request.isLocalSession()) {
+                        zks.getFollower().request(request);
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            handleException(this.getName(), e);
+        }
+        LOG.info("FollowerRequestProcessor exited loop!");
+    }
+
+};

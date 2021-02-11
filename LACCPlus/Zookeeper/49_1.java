@@ -1,0 +1,45 @@
+//,temp,ServerAdminClient.java,171,210,temp,ServerAdminClient.java,36,68
+//,3
+public class xxx {
+    public static void setTraceMask(String host, int port, String traceMaskStr) {
+        Socket s = null;
+        try {
+            byte[] reqBytes = new byte[12];
+            ByteBuffer req = ByteBuffer.wrap(reqBytes);
+            long traceMask = Long.parseLong(traceMaskStr, 8);
+            req.putInt(ByteBuffer.wrap("stmk".getBytes()).getInt());
+            req.putLong(traceMask);
+
+            s = new Socket();
+            s.setSoLinger(false, 10);
+            s.setSoTimeout(20000);
+            s.connect(new InetSocketAddress(host, port));
+
+            InputStream is = s.getInputStream();
+            OutputStream os = s.getOutputStream();
+
+            os.write(reqBytes);
+
+            byte[] resBytes = new byte[8];
+
+            int rc = is.read(resBytes);
+            ByteBuffer res = ByteBuffer.wrap(resBytes);
+            long retv = res.getLong();
+            System.out.println("rc=" + rc + " retv=0"
+                    + Long.toOctalString(retv) + " masks=0"
+                    + Long.toOctalString(traceMask));
+            assert (retv == traceMask);
+        } catch (IOException e) {
+            LOG.warn("Unexpected exception", e);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    LOG.warn("Unexpected exception", e);
+                }
+            }
+        }
+    }
+
+};
