@@ -1,0 +1,16 @@
+//,temp,JdbcProducer.java,284,294,temp,JdbcProducer.java,250,260
+//,2
+public class xxx {
+    private void closeQuietly(ResultSet rs) {
+        if (rs != null) {
+            try {
+                if (!rs.isClosed()) {
+                    rs.close();
+                }
+            } catch (Throwable sqle) {
+                LOG.debug("Error by closing result set", sqle);
+            }
+        }
+    }
+
+};

@@ -1,0 +1,26 @@
+//,temp,TransactedTopicProducerTest.java,67,93,temp,S3ObjectRangeOperationManualIT.java,88,108
+//,3
+public class xxx {
+    @Override
+    protected RouteBuilder createRouteBuilder() throws Exception {
+        return new RouteBuilder() {
+            @Override
+            public void configure() throws Exception {
+                String awsEndpoint = "aws2-s3://mycamelbucket?operation=getObjectRange&autoCreateBucket=false";
+
+                from("direct:getObjectRange").to(awsEndpoint).process(new Processor() {
+
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        ResponseInputStream<GetObjectResponse> s3 = exchange.getIn().getBody(ResponseInputStream.class);
+                        LOG.info(readInputStream(s3));
+
+                    }
+                }).to("mock:result");
+
+            }
+        };
+    }
+
+};
