@@ -1,0 +1,20 @@
+//,temp,sample_1713.java,2,16,temp,sample_1712.java,2,17
+//,3
+public class xxx {
+public void dummy_method(){
+TelegramConfiguration config = endpoint.getConfiguration();
+OutgoingMessage message = exchange.getIn().getBody(OutgoingMessage.class);
+if (message == null) {
+throw new IllegalArgumentException("Cannot convert the content to a Telegram OutgoingMessage");
+}
+if (message.getChatId() == null) {
+String chatId = resolveChatId(config, message, exchange);
+message.setChatId(chatId);
+}
+TelegramService service = TelegramServiceProvider.get().getService();
+
+
+log.info("message being sent is");
+}
+
+};

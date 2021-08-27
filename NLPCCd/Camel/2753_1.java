@@ -1,0 +1,15 @@
+//,temp,sample_5075.java,2,11,temp,sample_5074.java,2,9
+//,3
+public class xxx {
+public Object invoke(Exchange cxfExchange, Object o) {
+Continuation continuation;
+if (!endpoint.isSynchronous() && isAsyncInvocationSupported(cxfExchange) && (continuation = getContinuation(cxfExchange)) != null) {
+return asyncInvoke(cxfExchange, continuation);
+} else {
+
+
+log.info("calling the camel sync processors");
+}
+}
+
+};
